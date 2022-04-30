@@ -63,7 +63,7 @@ function initialPrompt() {
         else if (res.action === 'addEmployee') {
             addEmployee();
         }
-        else if (res.acion === 'updateRole') {
+        else if (res.action === 'updateRole') {
             updateRole();
         }
         else {
