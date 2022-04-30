@@ -49,42 +49,42 @@ function initialPrompt() {
         message: "What would you like to do?",
         name: "choices",
         choices: [{
-                name: "View All Departments",
-                value: "viewAllDepartments"
-            },
-            {
-                name: "View All Roles",
-                value: "viewAllRoles"
-            },
-            {
-                name: "View All Employees",
-                value: "viewAllEmployees"
-            },
-            {
-                name: "Add A Department",
-                value: "addDepartment"
-            },
-            {
-                name: "Add A Role",
-                value: "addRole"
-            },
-            {
-                name: "Add An Employee",
-                value: "addEmployee"
-            },
-            {
-                name: "Update An Employee Role",
-                value: "updateRole"
-            },
-            {
-                name: "End",
-                value: "end"
-            }
+            name: "View All Departments",
+            value: "viewAllDepartments"
+        },
+        {
+            name: "View All Roles",
+            value: "viewAllRoles"
+        },
+        {
+            name: "View All Employees",
+            value: "viewAllEmployees"
+        },
+        {
+            name: "Add A Department",
+            value: "addDepartment"
+        },
+        {
+            name: "Add A Role",
+            value: "addRole"
+        },
+        {
+            name: "Add An Employee",
+            value: "addEmployee"
+        },
+        {
+            name: "Update An Employee Role",
+            value: "updateRole"
+        },
+        {
+            name: "End",
+            value: "end"
+        }
         ]
     }).then(function (res) {
         mainMenu(res.choices)
     });
-}; 
+};
 
 // Main menu function
 function mainMenu(options) {
@@ -137,15 +137,15 @@ function viewAllEmployees() {
         console.table(res);
         endOrMain();
     });
-}; 
+};
 
 // Add Department function
 function addDepartment() {
     inquirer.prompt([{
-            type: "input",
-            message: "What is the new department name?",
-            name: "name"
-        }])
+        type: "input",
+        message: "What is the new department name?",
+        name: "name"
+    }])
         .then(function (response) {
             newDepartment(response);
         });
@@ -153,8 +153,8 @@ function addDepartment() {
 
 function newDepartment(data) {
     db.query("INSERT INTO department SET ?", {
-            name: data.name
-        },
+        name: data.name
+    },
         function (error, res) {
             if (error) throw error;
         });
@@ -164,23 +164,23 @@ function newDepartment(data) {
 // Add Role function
 function addRole() {
     inquirer.prompt([{
-                type: "input",
-                message: "What is the name of the new role?",
-                name: "title"
-            },
-            {
-                type: "input",
-                message: "What is the salary of the new role?",
-                name: "salary"
+        type: "input",
+        message: "What is the name of the new role?",
+        name: "title"
+    },
+    {
+        type: "input",
+        message: "What is the salary of the new role?",
+        name: "salary"
 
-            },
-            {
-                type: "list",
-                message: "Which department is the new role in?",
-                name: "id",
-                choices: departments
-            }
-        ])
+    },
+    {
+        type: "list",
+        message: "Which department is the new role in?",
+        name: "id",
+        choices: departments
+    }
+    ])
         .then(function (response) {
             addNewRole(response);
         });
@@ -200,28 +200,28 @@ function addNewRole(data) {
 // Add Employee function
 function addEmployee() {
     inquirer.prompt([{
-                type: 'input',
-                message: "What is the employee's first name?",
-                name: "firstName",
-            },
-            {
-                type: 'input',
-                message: "What is the employee's last name?",
-                name: "lastName",
-            },
-            {
-                type: "list",
-                message: "What is the title of the employee?",
-                name: "title",
-                choices: roles
-            },
-            {
-                type: "list",
-                message: "Who is the manager of the employee?",
-                name: "manager",
-                choices: employees
-            }
-        ])
+        type: 'input',
+        message: "What is the employee's first name?",
+        name: "firstName",
+    },
+    {
+        type: 'input',
+        message: "What is the employee's last name?",
+        name: "lastName",
+    },
+    {
+        type: "list",
+        message: "What is the title of the employee?",
+        name: "title",
+        choices: roles
+    },
+    {
+        type: "list",
+        message: "Who is the manager of the employee?",
+        name: "manager",
+        choices: employees
+    }
+    ])
         .then(function (response) {
             newEmployee(response);
         });
@@ -241,27 +241,29 @@ function newEmployee(data) {
 
 // Update role function
 function updateRole() {
-    inquirer.prompt([
-        {
-            type: "list",
-            message: "Which employee is updating their role?",
-            name: "employeeID",
-            choices: employees
-        },
-        {
-            type: "list",
-            message: "What is the new role?",
-            name: "titleID",
-            choices: roles
-        }
+    inquirer.prompt([{
+        type: "list",
+        message: "Which employee is updating their role?",
+        name: "employeeID",
+        choices: employees
+    },
+    {
+        type: "list",
+        message: "What is the new role?",
+        name: "titleID",
+        choices: roles
+    }
     ])
-    .then(function (response) {
-        updateEmployeesRole(response);
-    });
+        .then(function (response) {
+            updateEmployeesRole(response);
+        });
 };
 
 function updateEmployeesRole(data) {
     db.query(`UPDATE employee SET role_id = ${data.titleID} WHERE id =${data.employeeID}`,
+        function (error, res) {
+            if (error) throw error;
+        });
     function (error, res) {
         if (error) throw error;
     });
