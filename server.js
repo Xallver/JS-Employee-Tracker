@@ -1,17 +1,9 @@
 // Dependencies
 const inquirer = require('inquirer');
 const confirm = require('inquirer-confirm');
-const mysql = require('mysql2');
+const db = require('./db/connection');
 const consoleTable = require('console.table');
-const PORT = process.env.PORT || 3001;
 
-// MySQL information
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'employee_db'
-});
 
 // Connection to MySQL
 db.connect(function (error) {
@@ -269,4 +261,20 @@ function updateEmployeesRole(data) {
         if (error) throw error;
     });
     endOrMain();
+};
+
+// End or back to Main functions
+function endOrMain() {
+    confirm("Do you want to continue?")
+        .then(function confirmed() {
+            initialPrompt();
+        }, function cancelled() {
+            end();
+        });
+};
+
+function end() {
+    console.log("Exiting Employee Manager");
+    db.end();
+    process.exit();
 };
