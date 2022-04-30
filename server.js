@@ -1,8 +1,8 @@
-// Dependencies
+// My required dependencies
 const inquirer = require('inquirer');
-const confirm = require('inquirer-confirm');
 const db = require('./db/connection');
 const consoleTable = require('console.table');
+const confirm = require('inquirer-confirm');
 
 
 // Connection to MySQL
@@ -31,48 +31,47 @@ db.connect(function (error) {
             value: emp.id
         }))
     })
-
     initialPrompt();
 });
 
 // Initial Prompt function for questions
 function initialPrompt() {
     inquirer.prompt({
-        type: "list",
-        message: "What would you like to do?",
-        name: "choices",
-        choices: [{
-            name: "View All Departments",
-            value: "viewAllDepartments"
-        },
-        {
-            name: "View All Roles",
-            value: "viewAllRoles"
-        },
-        {
-            name: "View All Employees",
-            value: "viewAllEmployees"
-        },
-        {
-            name: "Add A Department",
-            value: "addDepartment"
-        },
-        {
-            name: "Add A Role",
-            value: "addRole"
-        },
-        {
-            name: "Add An Employee",
-            value: "addEmployee"
-        },
-        {
-            name: "Update An Employee Role",
-            value: "updateRole"
-        },
-        {
-            name: "End",
-            value: "end"
-        }
+            type: "list",
+            message: "What would you like to do?",
+            name: "choices",
+            choices: [{
+                name: "View All Departments",
+                value: "viewAllDepartments"
+            },
+            {
+                name: "View All Roles",
+                value: "viewAllRoles"
+            },
+            {
+                name: "View All Employees",
+                value: "viewAllEmployees"
+            },
+            {
+                name: "Add A Department",
+                value: "addDepartment"
+            },
+            {
+                name: "Add A Role",
+                value: "addRole"
+            },
+            {
+                name: "Add An Employee",
+                value: "addEmployee"
+            },
+            {
+                name: "Update An Employee Role",
+                value: "updateRole"
+            },
+            {
+                name: "End",
+                value: "end"
+            }
         ]
     }).then(function (res) {
         mainMenu(res.choices)
@@ -257,9 +256,6 @@ function updateEmployeesRole(data) {
         function (error, res) {
             if (error) throw error;
         });
-    function (error, res) {
-        if (error) throw error;
-    });
     endOrMain();
 };
 
