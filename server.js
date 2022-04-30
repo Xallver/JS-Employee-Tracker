@@ -186,3 +186,32 @@ function addNewRole(data) {
     });
     endOrMain();
 };
+
+function addEmployee() {
+    inquirer.prompt([{
+                type: 'input',
+                message: "What is the employee's first name?",
+                name: "firstName",
+            },
+            {
+                type: 'input',
+                message: "What is the employee's last name?",
+                name: "lastName",
+            },
+            {
+                type: "list",
+                message: "What is the title of the employee?",
+                name: "title",
+                choices: roles
+            },
+            {
+                type: "list",
+                message: "Who is the manager of the employee?",
+                name: "manager",
+                choices: employees
+            }
+        ])
+        .then(function (response) {
+            newEmployee(response);
+        });
+};
