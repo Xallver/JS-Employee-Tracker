@@ -1,5 +1,6 @@
 // Dependencies
 const inquirer = require('inquirer');
+const confirm = require('inquirer-confirm');
 const mysql = require('mysql2');
 const consoleTable = require('console.table');
 const PORT = process.env.PORT || 3001;
