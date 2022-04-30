@@ -37,3 +37,48 @@ db.connect(function (error) {
     })
 
 })
+    inquirerPrompt();
+})
+
+function inquirerPrompt() {
+    inquirer.prompt({
+        type: "list",
+        message: "What would you like to do?",
+        name: "choices",
+        choices: [{
+                name: "View All Departments",
+                value: "viewAllDepartments"
+            },
+            {
+                name: "View All Roles",
+                value: "viewAllRoles"
+            },
+            {
+                name: "View All Employees",
+                value: "viewAllEmployees"
+            },
+            {
+                name: "Add A Department",
+                value: "addDepartment"
+            },
+            {
+                name: "Add A Role",
+                value: "addRole"
+            },
+            {
+                name: "Add An Employee",
+                value: "addEmployee"
+            },
+            {
+                name: "Update An Employee Role",
+                value: "updateRole"
+            },
+            {
+                name: "End",
+                value: "end"
+            }
+        ]
+    }).then(function (res) {
+        mainMenu(res.choices)
+    });
+}; 
