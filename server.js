@@ -3,7 +3,7 @@ const inquirer = require('inquirer');
 const db = require('./db/connection');
 const consoleTable = require('console.table');
 const confirm = require('inquirer-confirm');
-const Connection = require('mysql/lib/Connection');
+
 
 
 // Connection to MySQL 
@@ -37,14 +37,14 @@ db.connect(function (error) {
 
 // Function for Initial Prompt
 function initialPrompt() {
-    inquirer.prompt({
-        type: "list",
+    inquirer.prompt([{
         message: "What would you like to do?",
-        name: "choices",
+        type: "list",
+        name: "action",
         choices: ['View all employees', 'View roles', 'View departments', 'Add employee', 'Add role', 
         'Add department', 'Update employee role', 'exit']
 
-    }).then((res) => {
+    }]).then((res) => {
         if(res.action === 'viewAllDepartments') {
             viewAllDepartments();
         }
@@ -57,7 +57,7 @@ function initialPrompt() {
         else if (res.action === 'addDepartment') {
             addDepartment();
         }
-        else if(res.action === 'addRole') {
+        else if (res.action === 'addRole') {
             addRole();
         }
         else if (res.action === 'addEmployee') {
@@ -67,41 +67,11 @@ function initialPrompt() {
             updateRole();
         }
         else {
-            connection.end();
+            db.end();
             return;
         }
-        // mainMenu(res.choices)
     });
 };
-
-// // Main menu function
-// function mainMenu(options) {
-//     switch (options) {
-//         case "viewAllDepartments":
-//             viewAllDepartments();
-//             break;
-//         case "viewAllRoles":
-//             viewAllRoles();
-//             break;
-//         case "viewAllEmployees":
-//             viewAllEmployees();
-//             break;
-//         case "addDepartment":
-//             addDepartment();
-//             break;
-//         case "addRole":
-//             addRole();
-//             break;
-//         case "addEmployee":
-//             addEmployee();
-//             break;
-//         case "updateRole":
-//             updateRole();
-//             break;
-//         case "end":
-//             end();
-//     };
-// };
 
 // View all departments function
 function viewAllDepartments() {
