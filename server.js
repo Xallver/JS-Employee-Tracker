@@ -17,18 +17,21 @@ db.connect(function (error) {
     if (error) throw error;
     console.log("Welcome to Employee Manager");
 
+    // DB query for roles
     db.query("SELECT * from role", function (error, res) {
         roles = res.map(role => ({
             name: role.title,
             value: role.id
         }))
     })
+    // DB query for departments
     db.query("SELECT * from department", function (error, res) {
         departments = res.map(dep => ({
             name: dep.name,
             value: dep.id
         }))
     })
+    // DB query for employees
     db.query("SELECT * from employee", function (error, res) {
         employees = res.map(emp => ({
             name: `${emp.first_name} ${emp.last_name}`,
@@ -36,10 +39,11 @@ db.connect(function (error) {
         }))
     })
 
-    inquirerPrompt();
+    initialPrompt();
 });
 
-function inquirerPrompt() {
+// Initial Prompt function for questions
+function initialPrompt() {
     inquirer.prompt({
         type: "list",
         message: "What would you like to do?",
@@ -82,6 +86,7 @@ function inquirerPrompt() {
     });
 }; 
 
+// Main menu function
 function mainMenu(options) {
     switch (options) {
         case "viewAllDepartments":
@@ -110,6 +115,7 @@ function mainMenu(options) {
     };
 };
 
+// View all departments function
 function viewAllDepartments() {
     db.query("SELECT * FROM department", function (error, res) {
         console.table(res);
@@ -117,6 +123,7 @@ function viewAllDepartments() {
     });
 };
 
+// View all roles function
 function viewAllRoles() {
     db.query("SELECT * FROM role", function (error, res) {
         console.table(res);
@@ -124,6 +131,7 @@ function viewAllRoles() {
     });
 };
 
+// View all employees function
 function viewAllEmployees() {
     db.query("SELECT * FROM employee", function (error, res) {
         console.table(res);
@@ -131,6 +139,7 @@ function viewAllEmployees() {
     });
 }; 
 
+// Add Department function
 function addDepartment() {
     inquirer.prompt([{
             type: "input",
@@ -152,6 +161,7 @@ function newDepartment(data) {
     endOrMain();
 };
 
+// Add Role function
 function addRole() {
     inquirer.prompt([{
                 type: "input",
@@ -187,6 +197,7 @@ function addNewRole(data) {
     endOrMain();
 };
 
+// Add Employee function
 function addEmployee() {
     inquirer.prompt([{
                 type: 'input',
@@ -215,3 +226,15 @@ function addEmployee() {
             newEmployee(response);
         });
 };
+
+function newEmployee(data) {
+    db.query("INSERT INTO employee SET ?", {
+        first_name: data.firstName,
+        last_name: data.lastName,
+        role_id: data.title,
+        manager_id: data.manager
+    }, function (error, res) {
+        if (error) throw error;
+    });
+    endOrMain();
+}
