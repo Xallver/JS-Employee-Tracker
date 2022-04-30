@@ -3,28 +3,29 @@ const inquirer = require('inquirer');
 const db = require('./db/connection');
 const consoleTable = require('console.table');
 const confirm = require('inquirer-confirm');
+const Connection = require('mysql/lib/Connection');
 
 
-// Connection to MySQL
+// Connection to MySQL 
 db.connect(function (error) {
     if (error) throw error;
     console.log("Welcome to Employee Manager");
 
-    // DB query for roles
+    // DB Query for roles
     db.query("SELECT * from role", function (error, res) {
         roles = res.map(role => ({
             name: role.title,
             value: role.id
         }))
     })
-    // DB query for departments
+    // DB Query for departments
     db.query("SELECT * from department", function (error, res) {
         departments = res.map(dep => ({
             name: dep.name,
             value: dep.id
         }))
     })
-    // DB query for employees
+    // DB Query for employees
     db.query("SELECT * from employee", function (error, res) {
         employees = res.map(emp => ({
             name: `${emp.first_name} ${emp.last_name}`,
@@ -34,78 +35,73 @@ db.connect(function (error) {
     initialPrompt();
 });
 
-// Initial Prompt function for questions
+// Function for Initial Prompt
 function initialPrompt() {
     inquirer.prompt({
-            type: "list",
-            message: "What would you like to do?",
-            name: "choices",
-            choices: [{
-                name: "View All Departments",
-                value: "viewAllDepartments"
-            },
-            {
-                name: "View All Roles",
-                value: "viewAllRoles"
-            },
-            {
-                name: "View All Employees",
-                value: "viewAllEmployees"
-            },
-            {
-                name: "Add A Department",
-                value: "addDepartment"
-            },
-            {
-                name: "Add A Role",
-                value: "addRole"
-            },
-            {
-                name: "Add An Employee",
-                value: "addEmployee"
-            },
-            {
-                name: "Update An Employee Role",
-                value: "updateRole"
-            },
-            {
-                name: "End",
-                value: "end"
-            }
-        ]
-    }).then(function (res) {
-        mainMenu(res.choices)
+        type: "list",
+        message: "What would you like to do?",
+        name: "choices",
+        choices: ['View all employees', 'View roles', 'View departments', 'Add employee', 'Add role', 
+        'Add department', 'Update employee role', 'exit']
+
+    }).then((res) => {
+        if(res.action === 'viewAllDepartments') {
+            viewAllDepartments();
+        }
+        else if (res.action === 'viewAllRoles') {
+            viewAllRoles();
+        }
+        else if (res.action === 'viewAllEmployees') {
+            viewAllEmployees();
+        }
+        else if (res.action === 'addDepartment') {
+            addDepartment();
+        }
+        else if(res.action === 'addRole') {
+            addRole();
+        }
+        else if (res.action === 'addEmployee') {
+            addEmployee();
+        }
+        else if (res.acion === 'updateRole') {
+            updateRole();
+        }
+        else {
+            connection.end();
+            return;
+        }
+        // mainMenu(res.choices)
     });
 };
 
-// Main menu function
-function mainMenu(options) {
-    switch (options) {
-        case "viewAllDepartments":
-            viewAllDepartments();
-            break;
-        case "viewAllRoles":
-            viewAllRoles();
-            break;
-        case "viewAllEmployees":
-            viewAllEmployees();
-            break;
-        case "addDepartment":
-            addDepartment();
-            break;
-        case "addRole":
-            addRole();
-            break;
-        case "addEmployee":
-            addEmployee();
-            break;
-        case "updateRole":
-            updateRole();
-            break;
-        case "end":
-            end();
-    };
-};
+// // Main menu function
+// function mainMenu(options) {
+//     switch (options) {
+//         case "viewAllDepartments":
+//             viewAllDepartments();
+//             break;
+//         case "viewAllRoles":
+//             viewAllRoles();
+//             break;
+//         case "viewAllEmployees":
+//             viewAllEmployees();
+//             break;
+//         case "addDepartment":
+//             addDepartment();
+//             break;
+//         case "addRole":
+//             addRole();
+//             break;
+//         case "addEmployee":
+//             addEmployee();
+//             break;
+//         case "updateRole":
+//             updateRole();
+//             break;
+//         case "end":
+//             end();
+//     };
+// };
 
 // View all departments function
 function viewAllDepartments() {
