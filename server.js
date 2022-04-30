@@ -82,3 +82,31 @@ function inquirerPrompt() {
         mainMenu(res.choices)
     });
 }; 
+
+function mainMenu(options) {
+    switch (options) {
+        case "viewAllDepartments":
+            viewAllDepartments();
+            break;
+        case "viewAllRoles":
+            viewAllRoles();
+            break;
+        case "viewAllEmployees":
+            viewAllEmployees();
+            break;
+        case "addDepartment":
+            addDepartment();
+            break;
+        case "addRole":
+            addRole();
+            break;
+        case "addEmployee":
+            addEmployee();
+            break;
+        case "updateRole":
+            updateRole();
+            break;
+        case "end":
+            end();
+    };
+};
