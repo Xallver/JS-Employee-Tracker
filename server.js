@@ -98,7 +98,7 @@ function viewAllDepartments() {
             value: dep.id
         }))
         console.table(res);
-        // endOrMain();
+        endOrMain();
     });
 };
 
@@ -120,6 +120,27 @@ function viewAllEmployees() {
             value: emp.id
         }))
         console.table(res);
-        // endOrMain();
+        endOrMain();
     });
 }; 
+
+function addDepartment() {
+    inquirer.prompt([{
+            type: "input",
+            message: "What is the new department name?",
+            name: "name"
+        }])
+        .then(function (response) {
+            newDepartment(response);
+        });
+};
+
+function newDepartment(data) {
+    db.query("INSERT INTO department SET ?", {
+            name: data.name
+        },
+        function (error, res) {
+            if (error) throw error;
+        });
+    endOrMain();
+};
