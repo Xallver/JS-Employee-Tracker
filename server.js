@@ -238,3 +238,32 @@ function newEmployee(data) {
     });
     endOrMain();
 }
+
+// Update role function
+function updateRole() {
+    inquirer.prompt([
+        {
+            type: "list",
+            message: "Which employee is updating their role?",
+            name: "employeeID",
+            choices: employees
+        },
+        {
+            type: "list",
+            message: "What is the new role?",
+            name: "titleID",
+            choices: roles
+        }
+    ])
+    .then(function (response) {
+        updateEmployeesRole(response);
+    });
+};
+
+function updateEmployeesRole(data) {
+    db.query(`UPDATE employee SET role_id = ${data.titleID} WHERE id =${data.employeeID}`,
+    function (error, res) {
+        if (error) throw error;
+    });
+    endOrMain();
+};
